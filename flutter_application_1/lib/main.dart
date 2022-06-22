@@ -1,179 +1,49 @@
-// import 'package:flutter/material.dart';
-// import './question.dart';
-// import 'answer.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatefulWidget {
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   final questions = const [
-//     {
-//       'questionText': 'What\'s your favorite color?',
-//       'answers': [
-//         {'text': 'Black' , 'score': 10},
-//         {'text': 'Green', 'score': 5},
-//         {'text': 'Blue', 'score': 2},
-//         {'text': 'Red', 'score': 1},  
-//       ]
-//     },
-//     {
-//       'questionText': 'What\'s your favorite animal?',
-//       'answers': [{'text': 'Dog' , 'score': 10},
-//         {'text': 'cat', 'score': 5},
-//         {'text': 'horse', 'score': 2},
-//         {'text': 'cow', 'score': 1}, ]
-//     },
-//     {
-//       'questionText': 'What\'s your favorite actor?',
-//       'answers': [{'text': 'Hrithik' , 'score': 10},
-//         {'text': 'Srk', 'score': 5},
-//         {'text': 'tiger', 'score': 2},
-//         {'text': 'Ntr', 'score': 1}, ]
-//     },
-//   ];
-//   var questionIndex = 0;
-
-//   void answerQuestion(int score) {
-//     setState(() {
-//       questionIndex = questionIndex + 1;
-//     });
-//     if (questionIndex < questions.length) {
-//       print("we have more questions");
-//     } else {
-//       print("none");
-//     }
-//     // print('Answer Choosen');
-//     // print(questionIndex);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         home: Scaffold(
-//             appBar: AppBar(
-//               title: Text('My first app'),
-//             ),
-//             body: questionIndex < questions.length
-//                 ? Column(children: [
-//                     Question(
-//                       questions[questionIndex]['questionText'] as String,
-//                     ),
-//                     ...(questions[questionIndex]['answers'] as List<Map<String , Object>>)
-//                         .map((answer) {
-//                       return Answer( () => answerQuestion(answer['score']) , answer['text']);
-//                     }).toList()
-//                     // Answer(answerQuestion),
-//                     // Answer(answerQuestion),
-//                     // Answer(answerQuestion),
-//                   ])
-//                 : Center(
-//                     child: Text("Done"),
-//                   )));
-//   }
-// }
-
 import 'package:flutter/material.dart';
 
-import './quiz.dart';
-import './result.dart';
-// void main() {
-//   runApp(MyApp());
-// }
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
-  }
+void main(List<String> args) {
+  runApp(MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  final _questions = const [
-    {
-      'questionText': 'What\'s your favorite color?',
-      'answers': [
-        {'text': 'Black', 'score': 10},
-        {'text': 'Red', 'score': 5},
-        {'text': 'Green', 'score': 3},
-        {'text': 'White', 'score': 1},
-      ],
-    },
-    {
-      'questionText': 'What\'s your favorite animal?',
-      'answers': [
-        {'text': 'Rabbit', 'score': 3},
-        {'text': 'Snake', 'score': 11},
-        {'text': 'Elephant', 'score': 5},
-        {'text': 'Lion', 'score': 9},
-      ],
-    },
-    {
-      'questionText': 'Who\'s your favorite instructor?',
-      'answers': [
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-      ],
-    },
-  ];
-  var _questionIndex = 0;
-  var _totalScore = 0;
-
-  void _resetQuiz() {
-    setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    });
-  }
-
-  void _answerQuestion(int score) {
-    // var aBool = true;
-    // aBool = false;
-
-    _totalScore += score;
-
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
-    print(_questionIndex);
-    if (_questionIndex < _questions.length) {
-      print('We have more questions!');
-    } else {
-      print('No more questions!');
-    }
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // var dummy = const ['Hello'];
-    // dummy.add('Max');
-    // print(dummy);
-    // dummy = [];
-    // questions = []; // does not work if questions is a const
-
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First App'),
-        ),
-        body: _questionIndex < _questions.length
-            ? Quiz(
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-                questions: _questions,
-              )
-            : Result(_totalScore, _resetQuiz),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter App'),
+      ),
+
+      body:Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            child: Card(
+              color: Colors.blue,
+               child: Text("CHART!"),
+            ),
+          ),
+          Card(child: Text("List of Transcation"),
+          ),
+
+        ],
+      )
     );
   }
 }
