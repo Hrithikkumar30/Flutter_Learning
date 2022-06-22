@@ -30,8 +30,14 @@ class MyHomePage extends StatelessWidget {
       ),
 
       body:Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Card(child: Text("CHART!"),
+          Container(
+            width: double.infinity,
+            child: Card(
+              color: Colors.blue,
+               child: Text("CHART!"),
+            ),
           ),
           Card(child: Text("List of Transcation"),
           ),
