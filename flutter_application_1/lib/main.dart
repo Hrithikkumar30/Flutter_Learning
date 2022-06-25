@@ -41,20 +41,30 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Self Expense Record'),
         ),
-        body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text("CHART!"),
+        body: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Colors.blue,
+                  child: Text("CHART!"),
+                ),
               ),
-            ),
+              Column(
+                children: [
+                  UserTransaction(),
+                  
+                ],
+              
+                
+              ),
 
-           
-          ],
+             
+            ],
+          ),
         )
         );
   }
