@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widget/transactionList.dart';
+import '../widget/new_transaction.dart';
+import '../widget/user_transaction.dart';
+
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -49,8 +52,10 @@ class MyHomePage extends StatelessWidget {
                 child: Text("CHART!"),
               ),
             ),
+
            
           ],
-        ));
+        )
+        );
   }
 }
