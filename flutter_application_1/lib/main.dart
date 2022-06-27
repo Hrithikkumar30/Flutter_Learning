@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widget/transactionList.dart';
 import '../widget/new_transaction.dart';
 import '../modules/transaction.dart';
+import '../widget/chart.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -16,6 +17,17 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        
+        accentColor: Colors.amber,
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -33,12 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final amountInput = TextEditingController();
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'New Shoes', amount: 2500, date: DateTime.now()),
-    Transaction(id: 't2', title: 'Hair Cut', amount: 200, date: DateTime.now()),
-    Transaction(id: 't3', title: 'movie', amount: 350, date: DateTime.now()),
+    // Transaction(
+    //     id: 't1', title: 'New Shoes', amount: 2500, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Hair Cut', amount: 200, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'movie', amount: 350, date: DateTime.now()),
   ];
-
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {   //where method helps us to filter the list of transactions
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
         title: txTitle,
@@ -82,13 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                width: double.infinity,
-                child: Card(
-                  color: Colors.purple,
-                  child: Text("CHART!"),
-                ),
-              ),
+              Chart(_recentTransactions),
+              // Container(
+              //   width: double.infinity,
+              //   child: Card(
+              //     color: Colors.purple,
+              //     child: Text("CHART!"),
+              //   ),
+              // ),
               Column(
                 children: [
                   TransactionList(_userTransactions),
