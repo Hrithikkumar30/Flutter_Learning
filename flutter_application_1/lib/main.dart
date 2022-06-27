@@ -1,179 +1,131 @@
-// import 'package:flutter/material.dart';
-// import './question.dart';
-// import 'answer.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatefulWidget {
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   final questions = const [
-//     {
-//       'questionText': 'What\'s your favorite color?',
-//       'answers': [
-//         {'text': 'Black' , 'score': 10},
-//         {'text': 'Green', 'score': 5},
-//         {'text': 'Blue', 'score': 2},
-//         {'text': 'Red', 'score': 1},  
-//       ]
-//     },
-//     {
-//       'questionText': 'What\'s your favorite animal?',
-//       'answers': [{'text': 'Dog' , 'score': 10},
-//         {'text': 'cat', 'score': 5},
-//         {'text': 'horse', 'score': 2},
-//         {'text': 'cow', 'score': 1}, ]
-//     },
-//     {
-//       'questionText': 'What\'s your favorite actor?',
-//       'answers': [{'text': 'Hrithik' , 'score': 10},
-//         {'text': 'Srk', 'score': 5},
-//         {'text': 'tiger', 'score': 2},
-//         {'text': 'Ntr', 'score': 1}, ]
-//     },
-//   ];
-//   var questionIndex = 0;
-
-//   void answerQuestion(int score) {
-//     setState(() {
-//       questionIndex = questionIndex + 1;
-//     });
-//     if (questionIndex < questions.length) {
-//       print("we have more questions");
-//     } else {
-//       print("none");
-//     }
-//     // print('Answer Choosen');
-//     // print(questionIndex);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         home: Scaffold(
-//             appBar: AppBar(
-//               title: Text('My first app'),
-//             ),
-//             body: questionIndex < questions.length
-//                 ? Column(children: [
-//                     Question(
-//                       questions[questionIndex]['questionText'] as String,
-//                     ),
-//                     ...(questions[questionIndex]['answers'] as List<Map<String , Object>>)
-//                         .map((answer) {
-//                       return Answer( () => answerQuestion(answer['score']) , answer['text']);
-//                     }).toList()
-//                     // Answer(answerQuestion),
-//                     // Answer(answerQuestion),
-//                     // Answer(answerQuestion),
-//                   ])
-//                 : Center(
-//                     child: Text("Done"),
-//                   )));
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widget/transactionList.dart';
+import '../widget/new_transaction.dart';
+import '../modules/transaction.dart';
+import '../widget/chart.dart';
 
-import './quiz.dart';
-import './result.dart';
-// void main() {
-//   runApp(MyApp());
-// }
+void main(List<String> args) {
+  runApp(MyApp());
+}
 
-void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        
+        accentColor: Colors.amber,
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
+      ),
+      home: MyHomePage(),
+    );
   }
 }
 
-class _MyAppState extends State<MyApp> {
-  final _questions = const [
-    {
-      'questionText': 'What\'s your favorite color?',
-      'answers': [
-        {'text': 'Black', 'score': 10},
-        {'text': 'Red', 'score': 5},
-        {'text': 'Green', 'score': 3},
-        {'text': 'White', 'score': 1},
-      ],
-    },
-    {
-      'questionText': 'What\'s your favorite animal?',
-      'answers': [
-        {'text': 'Rabbit', 'score': 3},
-        {'text': 'Snake', 'score': 11},
-        {'text': 'Elephant', 'score': 5},
-        {'text': 'Lion', 'score': 9},
-      ],
-    },
-    {
-      'questionText': 'Who\'s your favorite instructor?',
-      'answers': [
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-        {'text': 'Max', 'score': 1},
-      ],
-    },
-  ];
-  var _questionIndex = 0;
-  var _totalScore = 0;
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
-  void _resetQuiz() {
+class _MyHomePageState extends State<MyHomePage> {
+  // const MyHomePage({Key? key}) : super(key: key);
+  final purposeInput = TextEditingController();
+
+  final amountInput = TextEditingController();
+  final List<Transaction> _userTransactions = [
+    // Transaction(
+    //     id: 't1', title: 'New Shoes', amount: 2500, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Hair Cut', amount: 200, date: DateTime.now()),
+    // Transaction(id: 't3', title: 'movie', amount: 350, date: DateTime.now()),
+  ];
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {   //where method helps us to filter the list of transactions
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+        title: txTitle,
+        amount: txAmount,
+        date: DateTime.now(),
+        id: DateTime.now().toString());
     setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
+      _userTransactions.add(newTx);
     });
   }
 
-  void _answerQuestion(int score) {
-    // var aBool = true;
-    // aBool = false;
-
-    _totalScore += score;
-
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
-    print(_questionIndex);
-    if (_questionIndex < _questions.length) {
-      print('We have more questions!');
-    } else {
-      print('No more questions!');
-    }
+  void StartAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context:
+            ctx, //context is the context of the widget that calls the showModalBottomSheet() function
+        builder: (_) {
+          return GestureDetector(
+            onTap: () {},
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
+        }); //builder is used as funvtion which returns the widget which is inside it     //showmodalbottomsheet is a function that shows a modal bottom sheet
   }
 
   @override
   Widget build(BuildContext context) {
-    // var dummy = const ['Hello'];
-    // dummy.add('Max');
-    // print(dummy);
-    // dummy = [];
-    // questions = []; // does not work if questions is a const
-
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: Text('My First App'),
+          title: Text('Self Expense Record'),
+          actions: [
+            // actions argument takes a list of widgets
+            IconButton(
+                onPressed: () {
+                  StartAddNewTransaction(context);
+                },
+                icon: Icon(Icons.add))
+          ],
         ),
-        body: _questionIndex < _questions.length
-            ? Quiz(
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-                questions: _questions,
-              )
-            : Result(_totalScore, _resetQuiz),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Chart(_recentTransactions),
+              // Container(
+              //   width: double.infinity,
+              //   child: Card(
+              //     color: Colors.purple,
+              //     child: Text("CHART!"),
+              //   ),
+              // ),
+              Column(
+                children: [
+                  TransactionList(_userTransactions),
+                  // UserTransaction(),
+                ],
+              ),
+            ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              StartAddNewTransaction(context);
+              // Navigator.push(context, MaterialPageRoute(builder: (context) {
+              //   return NewTransaction();
+            }));
   }
 }
