@@ -18,13 +18,19 @@ class _NewTransactionState extends State<NewTransaction> {
 
 //constructor used for passing the function to the widget
   void SubmitData(String val) {
+    if (amountInput.text.isEmpty) {
+      return;
+    }
     final enteredPurpose = purposeInput.text;
     final enterAmount = double.parse(amountInput.text);
 
-    if (enteredPurpose.isEmpty || enterAmount <= 0) {
+    if (enteredPurpose.isEmpty || enterAmount <= 0|| selectedDate == null) {
       return;
     }
-    widget.addTransaction(purposeInput.text, double.parse(amountInput.text));
+    widget.addTransaction(purposeInput.text, 
+    double.parse(amountInput.text),
+    selectedDate
+    );
 
     Navigator.of(context)
         .pop(); //this method is used to close the modal bottom sheet
