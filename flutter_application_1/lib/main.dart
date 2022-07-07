@@ -14,21 +14,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        
-        accentColor: Colors.amber,
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          primarySwatch: Colors.purple,
+          // textTheme: ThemeData.light().textTheme.copyWith(
+          //         title: TextStyle(
+          //           fontFamily: 'OpenSans',
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 18,
+          //         ),
+          //       ),
+
+          accentColor: Colors.amber,
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  subtitle1: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-        ),
-      ),
+          )),
       home: MyHomePage(),
     );
   }
@@ -51,7 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // Transaction(id: 't3', title: 'movie', amount: 350, date: DateTime.now()),
   ];
   List<Transaction> get _recentTransactions {
-    return _userTransactions.where((tx) {   //where method helps us to filter the list of transactions
+    return _userTransactions.where((tx) {
+      //where method helps us to filter the list of transactions
       return tx.date.isAfter(
         DateTime.now().subtract(
           Duration(days: 7),
@@ -59,7 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }).toList();
   }
-  void _addNewTransaction(String txTitle, double txAmount , DateTime chooseDate) {
+
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chooseDate) {
     final newTx = Transaction(
         title: txTitle,
         amount: txAmount,
@@ -67,6 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
         id: DateTime.now().toString());
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 
@@ -112,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // ),
               Column(
                 children: [
-                  TransactionList(_userTransactions),
+                  TransactionList(_userTransactions, _deleteTransction),
                   // UserTransaction(),
                 ],
               ),
