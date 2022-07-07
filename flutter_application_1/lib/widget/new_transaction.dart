@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import"./user_transaction.dart";
+import "./user_transaction.dart";
 
 class NewTransaction extends StatefulWidget {
-  final Function addTransaction ;
+  final Function addTransaction;
 
   NewTransaction(this.addTransaction);
   @override
@@ -15,17 +15,25 @@ class _NewTransactionState extends State<NewTransaction> {
   final amountInput = TextEditingController();
 
 //constructor used for passing the function to the widget
-  void SubmitData(String val)  {
+  void SubmitData(String val) {
     final enteredPurpose = purposeInput.text;
     final enterAmount = double.parse(amountInput.text);
 
-    if (enteredPurpose.isEmpty || enterAmount<=0) {
+    if (enteredPurpose.isEmpty || enterAmount <= 0) {
       return;
     }
-    widget.addTransaction (purposeInput.text, 
-    double.parse(amountInput.text));
+    widget.addTransaction(purposeInput.text, double.parse(amountInput.text));
 
-    Navigator.of(context).pop(); //this method is used to close the modal bottom sheet
+    Navigator.of(context)
+        .pop(); //this method is used to close the modal bottom sheet
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime.now());
   }
 
   // const NewTransaction({Key? key}) : super(key: key);
@@ -54,7 +62,18 @@ class _NewTransactionState extends State<NewTransaction> {
               //   AmountInput = val;
               // },
             ),
-            Row(),
+            Row(
+              children: [
+                Text('No Date Chosen!'),
+                FlatButton(
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.purple),
+                    ))
+              ],
+            ),
             FlatButton(
                 onPressed: () {
                   // print(purposeInput.text);
@@ -62,7 +81,6 @@ class _NewTransactionState extends State<NewTransaction> {
                   // print(PurposeInput);
                   // print(AmountInput);
                   SubmitData;
-                  
                 },
                 child: Text('Add Transaction'),
                 textColor: Colors.purple)
