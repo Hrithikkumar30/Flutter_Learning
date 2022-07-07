@@ -14,9 +14,12 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FittedBox(
-          child: Text(
-              'Rs. ${spendingAmount.toStringAsFixed(0)}'),
+        Container(
+          height: 20,
+          child: FittedBox(
+            child: Text(
+                'Rs. ${spendingAmount.toStringAsFixed(0)}'),
+          ),
         ), //toStringAsFixed(0) is used to convert the double value to string and it will show only two decimal places
         SizedBox(height: 4),
         Container(
