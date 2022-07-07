@@ -54,6 +54,7 @@ class _NewTransactionState extends State<NewTransaction> {
               //   AmountInput = val;
               // },
             ),
+            Row(),
             FlatButton(
                 onPressed: () {
                   // print(purposeInput.text);
